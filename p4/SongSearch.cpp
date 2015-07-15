@@ -29,10 +29,10 @@ SongSearch::~SongSearch()
   delete list;
 }
 
-void SongSearch::query(const Request &request, Song answer[], int *answerCount)
+/*void SongSearch::query(const Request &request, Song answer[], int *answerCount)
 {
   *answerCount = 0;
-  /*req = request.type;
+  req = request.type;
   Song *temp = new Song; 
  
   if (request.type == 0)
@@ -43,7 +43,7 @@ void SongSearch::query(const Request &request, Song answer[], int *answerCount)
     strcpy(temp->artist, request.criteria);
   else if (request.type == 3)
     strcpy(temp->ID, request.criteria);
-  */
+  
   
   for (ListNode<Song> *itr = list->header->next; itr != NULL; itr = itr->next)
   {
@@ -76,7 +76,7 @@ void SongSearch::query(const Request &request, Song answer[], int *answerCount)
   
   //delete temp;
 } //query
-
+*/
 bool operator<(const Song& lhs, const Song& rhs)
 {
   return strcmp(lhs.title, rhs.title) < 0;
