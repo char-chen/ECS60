@@ -7,7 +7,7 @@ mynew.o : mynew.cpp mynew.h
 SearchRunner.o : SearchRunner.cpp CPUTimer.h mynew.h SearchRunner.h SongSearch.h 
 	g++ -ansi -Wall -g -c SearchRunner.cpp
 
-SongSearch.o : SongSearch.cpp SongSearch.h SearchRunner.h 
+SongSearch.o : SongSearch.cpp SongSearch.h SearchRunner.h LinkedList.h 
 	g++ -ansi -Wall -g -c SongSearch.cpp
 
 clean : 
