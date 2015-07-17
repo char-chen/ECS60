@@ -9,18 +9,17 @@ using namespace std;
 
 SongSearch::SongSearch(const Song *songs, int songCount) 
 {
- /* Song *notFound = new Song;
-  notFound->title[0] = 0;
-  notFound->artist[0] = 0;
-  notFound->ID[0] = 0;
-  notFound->album[0] = 0;
-  */
-  
+  Song *notFound = new Song;
+  notFound->title[0] = notFound->artist[0] = notFound->ID[0] = notFound->album[0] = 0;
   list = new List<Song>();
-  ListItr <Song> listItr = list->zeroth();
-  
+  skip = new SkipList<Song>(*notFound);
+  bst = new BinarySearchTree<Song>(*notFound);
+  avl = new AvlTree<Song>(*notFound);
+  splay = new SplayTree<Song>(*notFound);
+  heap = new BinaryHeap<Song>();
+   
   for (int i = 0; i < songCount; i++)
-    list->insert(songs[i], listItr);
+    list->insert(songs[i], list->zeroth());
   
 } //SongSearch
 
@@ -29,13 +28,13 @@ SongSearch::~SongSearch()
   delete list;
 }
 
-/*void SongSearch::query(const Request &request, Song answer[], int *answerCount)
+void SongSearch::query(const Request &request, Song answer[], int *answerCount)
 {
   *answerCount = 0;
-  req = request.type;
-  Song *temp = new Song; 
+  //req = request.type;
+  //Song *temp = new Song; 
  
-  if (request.type == 0)
+  /*if (request.type == 0)
     strcpy(temp->title, request.criteria);
   else if (request.type == 1)
     strcpy(temp->title, request.criteria);
@@ -43,9 +42,9 @@ SongSearch::~SongSearch()
     strcpy(temp->artist, request.criteria);
   else if (request.type == 3)
     strcpy(temp->ID, request.criteria);
+  */
   
-  
-  for (ListNode<Song> *itr = list->header->next; itr != NULL; itr = itr->next)
+  for (ListNode<Song> *itr = list->header->next; itr; itr = itr->next)
   {
     switch (request.type)
     {
@@ -76,7 +75,7 @@ SongSearch::~SongSearch()
   
   //delete temp;
 } //query
-*/
+
 bool operator<(const Song& lhs, const Song& rhs)
 {
   return strcmp(lhs.title, rhs.title) < 0;
