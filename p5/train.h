@@ -1,13 +1,16 @@
 #ifndef TRAIN_H
-#define	TRAIN_H
-#include "trainRunner.h"
+  #define	TRAIN_H
 
-class Train {
-  
+#include <climits>
+#include "trainRunner.h"
+#include "Dijkstra.h"
+#include "LinkedList.h"
+
+class Train 
+{
 public:
+  Graph network;
   Train(Station stations[], int numStations);
   void run(const Car cars[], int numCars, Action actions[], int *numActions);
-}; // class train 
-
-#endif	// TRAIN_H
-
+}; //Train 
+#endif
