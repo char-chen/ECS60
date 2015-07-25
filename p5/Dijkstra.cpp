@@ -16,13 +16,13 @@ Graph::~Graph()
 
 void Graph::addEdge(int src, int dest, int weight)
 {
-	// Add an edge from src to dest. A new node is added to the adjacency
-	// list of src. The node is added at the begining
+	// Add an edge from src to dest. A new node is added to the beginning 
+	// of adjacency list of src.
 	AdjListNode* newNode = new AdjListNode(dest, weight);
 	newNode->next = array[src].head;
 	array[src].head = newNode;
 
-	// Aadd an edge from dest to src if graph is undirected
+	// Aadd an edge from dest to src if graph is undirected.
 	//newNode = new AdjListNode(src, weight);
 	//newNode->next = array[dest].head;
 	//array[dest].head = newNode;
@@ -36,12 +36,11 @@ MinHeap::MinHeap(int cap) : size(0), capacity(cap)
 
 MinHeap::~MinHeap()
 {
-  delete [] pos;
-  
   for (int i = 0; i < capacity; ++i)
     delete [] array[i];
 
   delete [] array;
+  delete [] pos;
 }
   
 // A utility function to swap two nodes of min heap. Needed for min heapify
@@ -75,8 +74,8 @@ void MinHeap::minHeapify(int idx)
 		MinHeapNode *idxNode = array[idx];
 
 		// Swap positions
-		pos[smallestNode->v] = idx;
-		pos[idxNode->v] = smallest;
+		pos[smallestNode->V] = idx;
+		pos[idxNode->V] = smallest;
 
 		// Swap nodes
 		swapMinHeapNode(&array[smallest], &array[idx]);
@@ -98,8 +97,8 @@ MinHeapNode* MinHeap::extractMin()
 	array[0] = lastNode;
 
 	// Update position of last node
-	pos[root->v] = size-1;
-	pos[lastNode->v] = 0;
+	pos[root->V] = size-1;
+	pos[lastNode->V] = 0;
 
 	// Reduce heap size and heapify root
 	--size;
@@ -119,12 +118,12 @@ void MinHeap::decreaseKey(int v, int dist)
 	array[i]->distance = dist;
 
 	// Travel up while the complete tree is not hepified.
-	// This is a O(Logn) loop
+	// This is a O(Log N) loop
 	while (i && array[i]->distance < array[(i - 1) / 2]->distance)
 	{
 		// Swap this node with its parent
-		pos[array[i]->v] = (i-1)/2;
-		pos[array[(i-1)/2]->v] = i;
+		pos[array[i]->V] = (i-1)/2;
+		pos[array[(i-1)/2]->V] = i;
 		swapMinHeapNode(&array[i], &array[(i - 1) / 2]);
 
 		// move to parent index
@@ -133,7 +132,7 @@ void MinHeap::decreaseKey(int v, int dist)
 }
 
 // A utility function to check if a given vertex 'v' is in min heap or not
-bool MinHeap::isInMinHeap(int v)
+bool MinHeap::isInMinHeap(int v) const
 {
   if (pos[v] < size)
 	  return true;
@@ -172,7 +171,7 @@ void Graph::dijkstra(int src)
 	{
 		// Extract the vertex with minimum distance value
 		MinHeapNode* minHeapNode = minHeap->extractMin();
-		int u = minHeapNode->v; // Store the extracted vertex number
+		int u = minHeapNode->V; // Store the extracted vertex number
 
 		// Traverse through all adjacent vertices of u (the extracted
 		// vertex) and update their distance values

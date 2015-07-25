@@ -43,15 +43,11 @@ class vector
         return objects[ index ];
     }
 
-
     const vector & operator = ( const vector & rhs );
     void resize( int newSize );
   private:
     int currentSize;
     Object * objects;
 };
-
 #include "vector.cpp"
 #endif
-
-

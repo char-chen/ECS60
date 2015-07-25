@@ -29,51 +29,64 @@ void Train::run(const Car cars[], int numCars, Action actions[], int *numActions
   
   for (int i = 0; i < numCars; ++i)
     undelivered.insert(i, undelivered.zeroth());
-  
-  while (true)
+ 
+  while (!undelivered.isEmpty())
   {
-    int nearestCar = -1, minDistance = INT_MAX, destStation = -1;
+    int nextStation = -1, minDistance = INT_MAX, destStation = -1;
     network.dijkstra(currStation);
     
     while (currStation != destStation)
     {
-      for (ListNode<int> *prev = undelivered.header, *ptr = undelivered.header->next; ptr; ptr = ptr->next)
+      for (ListNode<int> *prev = undelivered.header, *ptr = undelivered.header->next; ptr; prev = ptr, ptr = ptr->next)
       {
-        if (cars[ptr->element].source == currStation)
+        int carID = ptr->element;
+         
+        if (cars[carID].source == currStation)
         {
           action.actionType = PICKUP;
-          action.stationOrCar = ptr->element;
+          action.stationOrCar = carID;
           actions[(*numActions)++] = action;
-          delivering.insert(ptr->element);
-          undelivered.remove(ptr->element);
-          ptr = prev;
+          delivering.insert(carID);
         } //Pick up car
-        else if (cars[ptr->element].destination == currStation && delivering.find(ptr->element) != -1)
+        else if (cars[carID].destination == currStation && delivering.find(carID) != -1)
         {
           action.actionType = DROPOFF;
-          action.stationOrCar = ptr->element;
+          action.stationOrCar = carID;
           actions[(*numActions)++] = action;
-          delivering.remove(ptr->element);
+          delivering.remove(carID);
+          undelivered.remove(carID);
+          ptr = prev;
           continue;
         } //Drop off car
         
-        if (undelivered.isEmpty())
-          return;
-        
-        if (network.dist[cars[ptr->element].source] < minDistance)
+        if (destStation == -1)
         {
-          minDistance = network.dist[cars[ptr->element].source];
-          nearestCar = ptr->element;
+          if (delivering.find(carID) == -1 && network.dist[cars[carID].source] < minDistance)
+          {
+            nextStation = cars[carID].source;
+            minDistance = network.dist[nextStation];
+          }
+          else if (delivering.find(carID) != -1 && network.dist[cars[carID].destination] < minDistance)
+          {
+            nextStation = cars[carID].destination;
+            minDistance = network.dist[nextStation];
+          }
         } //
-        
-        prev = ptr;
+        else
+          nextStation = destStation;
       }
+     
+      if (nextStation != -1) 
+      {
+        for (destStation = nextStation; nextStation != currStation; nextStation = network.paths[nextStation])
+          action.stationOrCar = nextStation;
       
-      for (int nextStation = destStation = cars[nearestCar].source; nextStation != currStation; nextStation = network.paths[nextStation])
-        currStation = action.stationOrCar = nextStation;
-      
-      action.actionType = MOVE;
-      actions[(*numActions)++] = action;
+        action.actionType = MOVE;
+        actions[(*numActions)++] = action;
+        currStation = action.stationOrCar; 
+      }
+      else
+        break;
     }
   }
 } //run

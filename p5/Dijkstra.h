@@ -8,9 +8,9 @@
 class AdjListNode
 {
 public:
-	int destination;
-	int weight;
-	AdjListNode* next;
+  int destination;
+  int weight;
+  AdjListNode* next;
   AdjListNode(int d, int w) : destination(d), weight(w), next(NULL) {}
 };
 
@@ -38,9 +38,9 @@ public:
 class MinHeapNode
 {
 public:
-	int v;
+	int V;
 	int distance;
-  MinHeapNode(int vert, int dist) : v(vert), distance(dist) {}
+  MinHeapNode(int v, int dist) : V(v), distance(dist) {}
 };
 
 class MinHeap
@@ -53,7 +53,7 @@ public:
   MinHeap(int cap);
   ~MinHeap();
   void minHeapify(int index);
-  bool isInMinHeap(int v);
+  bool isInMinHeap(int v) const;
   MinHeapNode* extractMin();
   void decreaseKey(int v, int dist);
 };
