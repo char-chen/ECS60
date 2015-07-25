@@ -2,17 +2,17 @@
 
 Graph::Graph(int v) : V(v)
 {
-	array = new AdjList[V];
+  array = new AdjList[V];
   dist = new int[V];
   paths = new int[V];
-}
+} //Graph
 
 Graph::~Graph()
 {
   delete [] array;
   delete [] dist;
   delete [] paths;
-}
+} //~Graph
 
 void Graph::addEdge(int src, int dest, int weight)
 {
@@ -21,18 +21,13 @@ void Graph::addEdge(int src, int dest, int weight)
 	AdjListNode* newNode = new AdjListNode(dest, weight);
 	newNode->next = array[src].head;
 	array[src].head = newNode;
-
-	// Aadd an edge from dest to src if graph is undirected.
-	//newNode = new AdjListNode(src, weight);
-	//newNode->next = array[dest].head;
-	//array[dest].head = newNode;
-}
+} //addEdge
 
 MinHeap::MinHeap(int cap) : size(0), capacity(cap)
 {
 	pos = new int[capacity];
 	array = new MinHeapNode*[capacity];
-}
+} //MinHeap
 
 MinHeap::~MinHeap()
 {
@@ -41,7 +36,7 @@ MinHeap::~MinHeap()
 
   delete [] array;
   delete [] pos;
-}
+} //~MinHeap
   
 // A utility function to swap two nodes of min heap. Needed for min heapify
 inline void swapMinHeapNode(MinHeapNode** a, MinHeapNode** b)
@@ -49,7 +44,7 @@ inline void swapMinHeapNode(MinHeapNode** a, MinHeapNode** b)
 	MinHeapNode* t = *a;
 	*a = *b;
 	*b = t;
-}
+} //swapMinHeapNode
 
 // A standard function to heapify at given idx
 // This function also updates position of nodes when they are swapped.
@@ -81,7 +76,7 @@ void MinHeap::minHeapify(int idx)
 		swapMinHeapNode(&array[smallest], &array[idx]);
 		minHeapify(smallest);
 	}
-}
+} //minHeapify
 
 // Standard function to extract minimum node from heap
 MinHeapNode* MinHeap::extractMin()
@@ -105,7 +100,7 @@ MinHeapNode* MinHeap::extractMin()
 	minHeapify(0);
 
 	return root;
-}
+} //extractMin
 
 // Function to decreasy dist value of a given vertex v. This function
 // uses pos[] of min heap to get the current index of node in min heap
@@ -129,7 +124,7 @@ void MinHeap::decreaseKey(int v, int dist)
 		// move to parent index
 		i = (i - 1) / 2;
 	}
-}
+} //decreaseKey
 
 // A utility function to check if a given vertex 'v' is in min heap or not
 bool MinHeap::isInMinHeap(int v) const
@@ -138,7 +133,7 @@ bool MinHeap::isInMinHeap(int v) const
 	  return true;
   
   return false;
-}
+} //isInMinHeap
 
 // The main function that calulates distances of shortest paths from src to all vertices.
 // It is O(ELogV).
@@ -194,4 +189,4 @@ void Graph::dijkstra(int src)
 			pCrawl = pCrawl->next;
 		}
 	}
-}
+} //dijkstra
