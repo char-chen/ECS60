@@ -1,7 +1,7 @@
 #include "LinkedList.h"
 
 template <class Object>
-List<Object>::List( )
+List<Object>::List( ) : count(0)
 {
   header = new ListNode<Object>;
 }
@@ -51,6 +51,7 @@ ListItr<Object> List<Object>::first( ) const
 template <class Object>
 void List<Object>::insert(const Object& x, const ListItr<Object>& p)
 {
+  count++;
   if(p.current)
     p.current->next = new ListNode<Object>(x, p.current->next);
 }
@@ -90,6 +91,7 @@ ListItr<Object> List<Object>::findPrevious( const Object & x ) const
 template <class Object>
 void List<Object>::remove( const Object & x )
 {
+    count--;
     ListItr<Object> p = findPrevious( x );
 
     if( p.current->next != NULL )

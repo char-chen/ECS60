@@ -29,6 +29,7 @@ public:
   
   vector<HashEntry> array;
   int currentSize;
+  int count;
   const HashedObj ITEM_NOT_FOUND;
   bool isPrime( int n ) const;
   int nextPrime( int n ) const;

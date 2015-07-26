@@ -42,7 +42,7 @@ int QuadraticHashTable<HashedObj>::nextPrime( int n ) const
  */
 template <class HashedObj>
 QuadraticHashTable<HashedObj>::QuadraticHashTable( const HashedObj & notFound, int size )
-  : array( nextPrime( size ) ), currentSize(0), ITEM_NOT_FOUND( notFound )
+  : array( nextPrime( size ) ), currentSize(0), count(0), ITEM_NOT_FOUND( notFound )
 {
     makeEmpty( );
 }
@@ -54,15 +54,15 @@ QuadraticHashTable<HashedObj>::QuadraticHashTable( const HashedObj & notFound, i
 template <class HashedObj>
 void QuadraticHashTable<HashedObj>::insert( const HashedObj & x )
 {
+    count++;
         // Insert x as active
     int currentPos = findPos( x );
     if( isActive( currentPos ) )
         return;
     array[ currentPos ] = HashEntry( x, ACTIVE );
-
         // Rehash; see Section 5.5
-    if( ++currentSize > array.size( ) / 2 )
-        rehash( );
+    //if( ++currentSize > array.size( ) / 2 )
+        //rehash( );
 }
 
 /**
@@ -72,7 +72,7 @@ template <class HashedObj>
 void QuadraticHashTable<HashedObj>::rehash( )
 {
     vector<HashEntry> oldArray = array;
-
+    count--;
         // Create new double-sized, empty table
     array.resize( nextPrime( 2 * oldArray.size( ) ) );
     for( int j = 0; j < array.size( ); j++ )
@@ -113,6 +113,8 @@ int QuadraticHashTable<HashedObj>::findPos( const HashedObj & x ) const
 template <class HashedObj>
 void QuadraticHashTable<HashedObj>::remove( const HashedObj & x )
 {
+  count--;
+  currentSize--;
     int currentPos = findPos( x );
     if( isActive( currentPos ) )
         array[ currentPos ].info = DELETED;

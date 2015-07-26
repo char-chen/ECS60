@@ -31,6 +31,7 @@ template <class Object>
 class List
 {
   public:
+    int count;
     ListNode<Object> *header;
     List();
     ~List();
