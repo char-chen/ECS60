@@ -61,8 +61,8 @@ void QuadraticHashTable<HashedObj>::insert( const HashedObj & x )
         return;
     array[ currentPos ] = HashEntry( x, ACTIVE );
         // Rehash; see Section 5.5
-    //if( ++currentSize > array.size( ) / 2 )
-        //rehash( );
+    if( ++currentSize > array.size( ) / 2 )
+        rehash( );
 }
 
 /**

@@ -17,7 +17,7 @@ public:
 class AdjList
 {
 public:
-	AdjListNode *head; // pointer to head node of list
+	AdjListNode *head;
   AdjList() : head(NULL) {}
 };
 

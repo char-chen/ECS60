@@ -11,7 +11,7 @@ public:
   const HashedObj& find( const HashedObj & x ) const;
 
   void makeEmpty( );
-  void insert( const HashedObj & x );
+  void insert( const HashedObj& x );
   void remove( const HashedObj & x );
 
   const QuadraticHashTable & operator=( const QuadraticHashTable & rhs );
